@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeafletJs</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <style>
+        html,
+        body,
+        #map {
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        // Initialize map
+        var map = L.map('map').setView([-6.9206329, 107.6002393], 13);
+
+        // BASEMAP
+        var osm = L.tileLayer(
+            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            {
+                maxZoom: 19,
+                attribution: '&copy; OpenStreetMap contributors'
+            }
+        );
+
+        var Esri_WorldImagery = L.tileLayer(
+            'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+            {
+                maxZoom: 19,
+                attribution: 'Tiles &copy; Esri'
+            }
+        );
+
+        var Google_Roadmap = L.tileLayer(
+            'https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
+            {
+                maxZoom: 20,
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+                attribution: 'Google'
+            }
+        );
+
+        Google_Roadmap.addTo(map);
+
+
+        // Marker
+        var marker = L.marker([-6.9206329, 107.6002393]);
+        var marker2 = L.marker([-6.8139439, 107.6179504]);
+
+        // Menambahkan marker ke dalam peta
+        marker.addTo(map);
+        marker2.addTo(map);
+
+        // Popup
+        marker.bindPopup("<b>Kota Bandung</b><br>Kota Bandung adalah ibu kota Provinsi Jawa Barat yang dikenal sebagai pusat pendidikan, pariwisata, dan kota kreatif. Informasi UmumLokasi: Terletak 140 km di sebelah tenggara Jakarta, berada pada ketinggian 700 meter di atas permukaan laut.Julukan: Dikenal sebagai Kota Kembang karena dulunya memiliki banyak pohon dan bunga, serta Paris van Java karena keindahannya.");
+        marker.openPopup();
+        marker2.bindPopup("<b>Lembang</b><br>Kota Lembang adalah kota yang terletak di Provinsi Jawa Barat, Indonesia. Kota ini dikenal sebagai kota wisata dan memiliki berbagai objek wisata menarik. Informasi UmumLokasi: Terletak di sebelah barat Kota Bandung, berada pada ketinggian sekitar 685 meter di atas permukaan laut.Julukan: Dikenal sebagai Kota Militer karena adanya beberapa fasilitas militer di wilayahnya.");
+
+        // Tooltip
+        marker.bindTooltip("Bandung");
+        marker.openTooltip();
+        marker2.bindTooltip("Lembang");
+        marker2.openTooltip();
+
+        // Circle
+        var circle = L.circle([-6.9277475, 107.7690554], {
+            color: "red", // warna garis
+            opacity: 1, // opacity garis
+            fillColor: "#f03", // warna fill
+            fillOpacity: 0.5, // opacity fill
+            radius: 1000, // radius dalam meter
+        });
+
+        // Menambahkan circle ke dalam peta
+        circle.addTo(map);
+
+        // Popup
+        circle.bindPopup("<b>Hallo</b><br>Ini adalah Radus 1 km");
+        circle.openPopup();
+
+        // Tooltip
+        circle.bindTooltip("Ini adalah tooltip circle", { sticky: true });
+        // circle.openTooltip();
+
+        // Polyline
+        var vertexPolyline = [
+            [-6.9206329, 107.6002393],
+            [-6.9277475, 107.7690554],
+            [-6.8139439, 107.6179504],
+
+        ];
+        var polyline = L.polyline(vertexPolyline, {
+            color: "red", // warna garis
+            weight: 6, // ketebalan garis
+            opacity: 1, // opacity garis
+        });
+
+        // Menambahkan polyline ke dalam peta
+        polyline.addTo(map);
+
+        // Popup
+        polyline.bindPopup("<b>Hallo</b><br>Ini adalah popup polyline");
+        polyline.openPopup();
+
+        // Tooltip
+        polyline.bindTooltip("Ini adalah tooltip polyline", { sticky: true });
+        polyline.openTooltip();
+
+        // Polygon
+        var vertexPolygon = [
+            [-6.92076329, 107.6002393],
+            [-6.9277475, 107.7690554],
+            [-6.8139439, 107.6179504],
+        ];
+        var polygon = L.polygon(vertexPolygon, {
+            color: "purple", // warna garis
+            weight: 3, // ketebalan garis
+            opacity: 1, // opacity garis
+            fillColor: "#0f3", // warna fill
+            fillOpacity: 0.5, // opacity fill
+        });
+
+        // Menambahkan polygon ke dalam peta
+        polygon.addTo(map);
+
+        // Popup
+        polygon.bindPopup("<b>Hallo</b><br>Ini adalah popup polygon");
+        polygon.openPopup();
+
+        // Tooltip
+        polygon.bindTooltip("Ini adalah tooltip polygon");
+        polygon.openTooltip();
+
+        // CONTROL LAYER
+
+        var baseMaps = {
+            "OpenStreetMap": osm,
+            "Esri World Imagery": Esri_WorldImagery,
+            "Google Roadmap": Google_Roadmap
+        };
+
+        var overlayMaps = {
+            "Bandung": marker,
+            "Lembang": marker2,
+            "Circle Radius 1 km": circle,
+            "Polyline": polyline,
+            "Polygon": polygon
+        };
+
+        var controlLayer = L.control.layers(
+            baseMaps,
+            overlayMaps,
+            { collapsed: false }
+        );
+
+        controlLayer.addTo(map);
+
+        // Scale
+        var scale = L.control.scale();
+        scale.addTo(map);
+        // Scale 
+        var scale = L.control.scale({
+            imperial: false,
+        });
+
+        // Geolocation
+        map.locate({
+            setView: true,
+            maxZoom: 16,
+        });
+
+        // Fungsi untuk menampilkan lokasi
+        function onLocationFound(e) {
+            var radius = e.accuracy / 2;
+
+            // Menampilkan marker pada lokasi 
+            L.marker(e.latlng).addTo(map).bindPopup("Anda berada dalam radius " + radius + " meter dari titik ini").openPopup();
+
+            // Menampilkan circle pada lokasi
+            L.circle(e.latlng, radius).addTo(map);
+        }
+
+        map.on("locationfound", onLocationFound);
+
+        // Fungsi untuk menampilkan pesan error
+        function onLocationError(e) {
+            alert(e.message);
+        }
+
+        map.on("locationerror", onLocationError);
+    </script>
+
+</body>
+
+</html>
